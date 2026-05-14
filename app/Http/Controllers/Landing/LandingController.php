@@ -16,23 +16,27 @@ class LandingController extends Controller
 
         $query = Product::query();
 
-        // Search berdasarkan nama produk atau brand
         if ($search) {
             $query->where('name', 'like', '%' . $search . '%')
                 ->orWhere('brand', 'like', '%' . $search . '%');
         }
 
-        // Urutkan berdasarkan Klik (Views) jika tombol Populer ditekan
         if ($sort == 'popular') {
             $query->orderByDesc('views');
         } else {
             $query->latest();
         }
 
-        // Tampilkan 7 data pertama sesuai permintaan Anda
         $products = $query->paginate(7)->withQueryString();
 
-        // Nama view tetap landing.landing sesuai strukturmu
+        // JIKA PERMINTAAN AJAX (Tombol Lihat Lainnya diklik)
+        if ($request->ajax()) {
+            return response()->json([
+                'html' => view('landing.layouts.product_cards', compact('products'))->render(),
+                'nextPage' => $products->nextPageUrl()
+            ]);
+        }
+
         return view('landing.landing', compact('products', 'search'));
     }
 

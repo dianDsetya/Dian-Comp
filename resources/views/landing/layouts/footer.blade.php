@@ -25,7 +25,7 @@
             [
             'name' => 'GitHub',
             'icon' => 'fa-github',
-            'url' => 'https://github.com/username/repository', // Ganti dengan link github-mu
+            'url' => 'https://github.com/dianDsetya/Dian-Comp', 
             'label' => 'Source Code'
             ],
             ];

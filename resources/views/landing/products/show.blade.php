@@ -15,7 +15,18 @@
 @endpush
 
 @section('content')
-<div class="min-h-screen py-8 md:py-16 px-4">
+<div class="min-h-screen py-8 md:py-12 px-4">
+
+    {{-- TOMBOL BACK --}}
+    <div class="max-w-6xl mx-auto mb-6">
+        <a href="{{ url('/') }}" class="inline-flex items-center gap-2 text-slate-400 hover:text-blue-600 font-bold text-xs uppercase tracking-widest transition-all group">
+            <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center group-hover:bg-blue-50 transition-all">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+            <span>Kembali ke Katalog</span>
+        </a>
+    </div>
+
     {{-- CARD UTAMA DETAIL PRODUK --}}
     <div class="max-w-6xl mx-auto product-detail-card p-6 md:p-12 shadow-2xl mb-20">
         <div class="flex flex-col lg:flex-row gap-12 items-center">
@@ -23,7 +34,8 @@
             {{-- Bagian Gambar Produk --}}
             <div class="w-full lg:w-1/2">
                 <div class="rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-50 bg-white">
-                    <img src="{{ asset('product/' . $product->image) }}" class="w-full h-auto object-cover">
+                    {{-- Menggunakan Accessor image_url agar support link seeder --}}
+                    <img src="{{ $product->image_url }}" class="w-full h-auto object-cover">
                 </div>
             </div>
 
@@ -60,7 +72,7 @@
         </div>
     </div>
 
-    {{-- BAGIAN REKOMENDASI (Sistem Rekomendasi Berdasarkan Brand/Harga) --}}
+    {{-- BAGIAN REKOMENDASI --}}
     <div class="max-w-6xl mx-auto">
         <div class="flex items-center gap-4 mb-8">
             <h2 class="text-xl font-black text-slate-900 uppercase tracking-tighter">Produk Rekomendasi</h2>
@@ -72,7 +84,8 @@
             <a href="{{ route('products.show', $rec->slug) }}" class="group">
                 <div class="bg-white p-3 rounded-3xl border border-gray-100 shadow-sm hover:shadow-lg transition-all flex flex-col h-full">
                     <div class="aspect-square overflow-hidden rounded-2xl mb-4">
-                        <img src="{{ asset('product/' . $rec->image) }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
+                        {{-- Menggunakan Accessor image_url --}}
+                        <img src="{{ $rec->image_url }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform">
                     </div>
                     <h3 class="text-xs font-bold text-slate-800 line-clamp-2 group-hover:text-blue-600 px-1">{{ $rec->name }}</h3>
                     <p class="text-[10px] text-blue-600 font-black mt-2 px-1 mb-2">Rp {{ number_format($rec->price, 0, ',', '.') }}</p>

@@ -1,4 +1,4 @@
-@extends('landing.layouts.product') {{-- Tetap gunakan layout yang sama --}}
+@extends('landing.layouts.product')
 
 @section('content')
 <div class="min-h-screen flex flex-col bg-white">
@@ -24,7 +24,7 @@
                 </svg>
             </h1>
             <p class="text-gray-500 text-xs md:text-sm mt-1 font-medium max-w-sm mx-auto leading-snug">
-                Katalog produk digital dan gadget terbaru. Kualitas terjamin untuk kebutuhan Anda.
+                Katalog harga laptop terbaru. Temukan spesifikasi terbaik dengan harga bersaing.
             </p>
 
             <div class="mt-6 flex justify-center p-1 bg-gray-200/50 backdrop-blur-sm w-fit mx-auto rounded-full border border-gray-200">
@@ -50,64 +50,68 @@
     <!-- Main Content -->
     <main class="max-w-6xl mx-auto py-8 px-4 md:px-6 flex-grow">
         <div class="mb-6 flex items-center justify-between">
-            <h2 class="text-[10px] md:text-xs font-black text-gray-400 uppercase tracking-widest">Daftar Produk</h2>
+            <h2 class="text-[10px] md:text-xs font-black text-gray-400 uppercase tracking-widest">Daftar Katalog</h2>
             <div class="h-px flex-grow bg-gray-100 ml-4"></div>
         </div>
 
-        <!-- GRID 2 KOLOM DI MOBILE, 3 KOLOM DI DESKTOP -->
-        <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
-            @forelse ($products as $item)
-            <a href="{{ route('products.show', $item->slug) }}" class="group">
-                <div class="bg-white rounded-2xl md:rounded-[2rem] border border-gray-100 shadow-sm overflow-hidden transition-all duration-500 hover:shadow-xl hover:-translate-y-2 h-full flex flex-col">
-
-                    <div class="relative aspect-square overflow-hidden bg-gray-50">
-                        {{-- Path Gambar disesuaikan ke folder public/product/ --}}
-                        <img src="{{ asset('product/' . $item->image) }}" alt="{{ $item->name }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105">
-                        <div class="absolute top-2 left-2 md:top-4 md:left-4">
-                            <span class="bg-blue-600/90 backdrop-blur-sm text-white text-[7px] md:text-[9px] font-black px-1.5 py-0.5 md:px-2 md:py-1 rounded md:rounded-lg flex items-center gap-1 uppercase shadow-md">
-                                {{ $item->brand }}
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="p-3 md:p-5 flex-grow flex flex-col justify-between">
-                        <div>
-                            <h3 class="text-xs md:text-base font-bold text-gray-800 leading-tight group-hover:text-blue-600 transition-colors line-clamp-2">
-                                {{ $item->name }}
-                            </h3>
-                            <p class="text-[9px] md:text-[12px] text-blue-600 mt-2 font-black">
-                                Rp {{ number_format($item->price, 0, ',', '.') }}
-                            </p>
-                        </div>
-
-                        <div class="mt-3 md:mt-4 pt-3 md:pt-4 border-t border-gray-50 flex items-center justify-between">
-                            <span class="text-[7px] md:text-[9px] text-gray-400 font-bold uppercase">
-                                <i class="fas fa-eye mr-1 text-blue-300"></i> {{ $item->views ?? 0 }} Klik
-                            </span>
-                            <span class="text-blue-600 text-[8px] md:text-[10px] font-black tracking-widest group-hover:mr-1 transition-all">
-                                DETAIL →
-                            </span>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            @empty
-            <div class="col-span-full text-center py-16 bg-gray-50 rounded-[2rem] border-2 border-dashed border-gray-200">
-                <p class="text-gray-400 font-bold italic text-sm">Produk belum tersedia.</p>
-            </div>
-            @endforelse
+        <!-- GRID WRAPPER -->
+        <div id="product-list" class="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8">
+            @include('landing.layouts.product_cards')
         </div>
 
-        {{-- Pagination --}}
-        @if ($products->hasMorePages())
-        <div class="mt-12 text-center">
-            <a href="{{ $products->nextPageUrl() }}" class="inline-flex items-center gap-2 bg-white border border-gray-200 px-8 py-3 rounded-full font-bold text-gray-600 shadow-sm hover:shadow-md hover:text-blue-600 transition-all text-[10px] md:text-xs">
-                Lihat Lainnya <i class="fas fa-chevron-down text-[8px] md:text-[10px]"></i>
-            </a>
+        <!-- TOMBOL LIHAT LAINNYA -->
+        <div id="load-more-section" class="mt-12 text-center {{ $products->hasMorePages() ? '' : 'hidden' }}">
+            <button id="btn-load-more" data-next="{{ $products->nextPageUrl() }}"
+                class="inline-flex items-center gap-2 bg-white border border-gray-200 px-8 py-3 rounded-full font-bold text-gray-600 shadow-sm hover:shadow-md hover:text-blue-600 transition-all text-[10px] md:text-xs">
+                <span>Lihat Lainnya</span>
+                <i class="fas fa-chevron-down text-[8px] md:text-[10px]"></i>
+            </button>
         </div>
-        @endif
     </main>
 
     @include('landing.layouts.footer')
 </div>
+
+{{-- SCRIPT AJAX --}}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#btn-load-more').on('click', function() {
+            let btn = $(this);
+            let url = btn.attr('data-next');
+
+            if (!url) return;
+
+            btn.find('span').text('Loading...');
+            btn.prop('disabled', true);
+
+            $.ajax({
+                url: url,
+                type: 'GET',
+                dataType: 'json',
+                success: function(res) {
+                    if (res.html) {
+                        // Tambahkan item baru ke dalam list
+                        $('#product-list').append(res.html);
+
+                        // Update URL untuk halaman berikutnya
+                        if (res.nextPage) {
+                            btn.attr('data-next', res.nextPage);
+                            btn.find('span').text('Lihat Lainnya');
+                            btn.prop('disabled', false);
+                        } else {
+                            // Jika sudah habis, sembunyikan tombol
+                            $('#load-more-section').fadeOut();
+                        }
+                    }
+                },
+                error: function() {
+                    alert('Gagal mengambil data.');
+                    btn.find('span').text('Lihat Lainnya');
+                    btn.prop('disabled', false);
+                }
+            });
+        });
+    });
+</script>
 @endsection
