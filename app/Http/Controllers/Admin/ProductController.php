@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\ProductsExport;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
@@ -88,5 +91,33 @@ class ProductController extends Controller
         }
         $product->delete();
         return redirect()->back()->with('success', 'Product berhasil dihapus!');
+    }
+
+    public function export($type)
+    {
+        $products = Product::all();
+
+        // Data untuk PDF & Print
+        $data = $products->map(function ($item, $index) {
+            return [
+                'no'           => $index + 1,
+                'name'         => $item->name,
+                'brand'        => $item->brand,
+                'processor'    => $item->processor,
+                'ram'          => $item->ram,
+                'price'        => 'Rp ' . number_format($item->price, 0, ',', '.'),
+                'views'        => $item->views ?? 0,
+            ];
+        });
+
+        switch ($type) {
+            case 'excel':
+                return Excel::download(new ProductsExport, 'products-ozaracomp.xlsx');
+            case 'pdf':
+                $pdf = Pdf::loadView('admin.products.export-pdf', compact('data'));
+                return $pdf->download('katalog-produk-ozaracomp.pdf');
+            default:
+                abort(404);
+        }
     }
 }
