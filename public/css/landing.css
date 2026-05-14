@@ -1,0 +1,317 @@
+/* ===========================
+   Dian Computer Landing - Custom CSS
+   =========================== */
+
+/* --- CSS Variables (mirroring Tailwind theme) --- */
+:root {
+    --primary: 84 81% 44%;
+    --primary-foreground: 0 0% 100%;
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --border: 240 5.9% 90%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --ring: 84 81% 44%;
+}
+
+/* --- Keyframe Animations --- */
+
+@keyframes float {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+@keyframes float-delayed {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+@keyframes marquee {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-33.33%);
+    }
+}
+
+@keyframes marquee-testimonial {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes zoom-slow {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+}
+
+@keyframes zoom-slow-cta {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@keyframes slide-in-from-top {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-up {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes pulse-ring {
+    0% {
+        transform: scale(1);
+        opacity: 0.2;
+    }
+
+    100% {
+        transform: scale(1.8);
+        opacity: 0;
+    }
+}
+
+@keyframes sparkle-float {
+
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.3;
+    }
+
+    50% {
+        transform: translateY(-30px);
+        opacity: 0.6;
+    }
+}
+
+/* --- Utility Classes --- */
+
+.animate-float {
+    animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+    animation: float-delayed 6s ease-in-out infinite;
+}
+
+.animate-marquee {
+    animation: marquee 30s linear infinite;
+}
+
+.animate-marquee-testimonial {
+    animation: marquee-testimonial 40s linear infinite;
+}
+
+.animate-zoom-slow {
+    animation: zoom-slow 20s ease-in-out infinite;
+}
+
+.animate-zoom-slow-cta {
+    animation: zoom-slow-cta 20s ease-in-out infinite;
+}
+
+.animate-slide-in-top {
+    animation: slide-in-from-top 0.3s ease-out;
+}
+
+.animate-fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.animate-fade-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.animate-pulse-ring {
+    animation: pulse-ring 2s ease-out infinite;
+}
+
+.animate-sparkle-float {
+    animation: sparkle-float 4s ease-in-out infinite;
+}
+
+/* Stagger delays for scroll animations */
+.delay-100 {
+    transition-delay: 100ms;
+}
+
+.delay-200 {
+    transition-delay: 200ms;
+}
+
+.delay-300 {
+    transition-delay: 300ms;
+}
+
+.delay-400 {
+    transition-delay: 400ms;
+}
+
+/* --- Writing Mode Utility --- */
+.writing-vertical-lr {
+    writing-mode: vertical-lr;
+}
+
+/* --- Noise Texture --- */
+.noise-overlay {
+    background-image: url('https://grainy-gradients.vercel.app/noise.svg');
+}
+
+/* --- Custom Scrollbar (optional) --- */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.2);
+    border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.4);
+}
+
+/* =========================================
+   DECORATION (Pinggir Layar)
+   ========================================= */
+
+/* Wadah Dekorasi */
+.decor-container {
+    position: absolute;
+    z-index: 5;
+    pointer-events: none;
+    /* Penting: Biar tombol/konten di bawahnya tetep bisa di-klik */
+}
+
+/* Menempel di Kiri Bawah */
+.decor-bottom-left {
+    bottom: 0;
+    left: 0;
+}
+
+/* Menempel di Kanan Bawah */
+.decor-bottom-right {
+    bottom: 0;
+    right: 0;
+}
+
+/* Ukuran Gambar */
+.decor-img {
+    width: 140px;
+    /* Silakan perbesar/perkecil angka ini sesuai kebutuhanmu */
+    height: auto;
+    opacity: 0.9;
+    object-fit: contain;
+}
+
+/* Membalik (Flip) gambar yang di kanan agar sisi lurusnya nempel ke tepi kanan layar */
+.decor-bottom-right .decor-img {
+    transform: scaleX(-1);
+}
+
+/* Animasi Mengambang (Naik Turun Halus) */
+@keyframes floatLeft {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-8px);
+    }
+}
+
+/* Khusus animasi kanan, harus memasukkan properti scaleX(-1) agar efek flip-nya tidak hilang */
+@keyframes floatRight {
+
+    0%,
+    100% {
+        transform: scaleX(-1) translateY(0);
+    }
+
+    50% {
+        transform: scaleX(-1) translateY(-8px);
+    }
+}
+
+.animate-decor-left {
+    animation: floatLeft 6s ease-in-out infinite;
+}
+
+.animate-decor-right {
+    animation: floatRight 6s ease-in-out infinite;
+}

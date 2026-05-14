@@ -1,0 +1,163 @@
+@import "tailwindcss";
+
+/* =========================================================
+   SOURCE FILE SCAN
+   ========================================================= */
+
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
+@source "../**/*.blade.php";
+@source "../**/*.js";
+
+
+/* =========================================================
+   THEME
+   ========================================================= */
+
+@theme {
+    --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif,
+        "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+}
+
+
+/* =========================================================
+   HERO GRADIENT
+   ========================================================= */
+
+.hero-section {
+    background: linear-gradient(270deg, #6366f1, #9333ea, #ec4899);
+    background-size: 600% 600%;
+    animation: gradientMove 12s ease infinite;
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+
+    50% {
+        background-position: 100% 50%;
+    }
+
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+
+/* =========================================================
+   FLOATING SHAPES
+   ========================================================= */
+
+.floating {
+    position: absolute;
+    border-radius: 9999px;
+    background: white;
+    opacity: 0.15;
+    animation: float 12s ease-in-out infinite;
+}
+
+.shape1 {
+    width: 150px;
+    height: 150px;
+    top: 20%;
+    left: 10%;
+}
+
+.shape2 {
+    width: 200px;
+    height: 200px;
+    bottom: 10%;
+    right: 10%;
+}
+
+.shape3 {
+    width: 100px;
+    height: 100px;
+    top: 40%;
+    right: 30%;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-40px);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================================================
+   FEATURE CARD
+   ========================================================= */
+
+.feature-card {
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    transition: all 0.4s ease;
+    transform-style: preserve-3d;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.feature-card:hover {
+    transform: rotateY(12deg) rotateX(6deg) scale(1.05);
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.2);
+}
+
+
+/* =========================================================
+   STAT CARD
+   ========================================================= */
+
+.stat-card {
+    padding: 40px;
+    border-radius: 16px;
+    background: #f9fafb;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* =========================================================
+   ANIMASI BLOB (Background Login)
+   ========================================================= */
+@keyframes blob {
+    0% {
+        transform: translate(0px, 0px) scale(1);
+    }
+
+    33% {
+        transform: translate(30px, -50px) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-20px, 20px) scale(0.9);
+    }
+
+    100% {
+        transform: translate(0px, 0px) scale(1);
+    }
+}
+
+.animate-blob {
+    animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+    animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+    animation-delay: 4s;
+}
