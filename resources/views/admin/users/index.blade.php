@@ -6,7 +6,7 @@
 <div class="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
     <div>
         <h2 class="text-2xl font-bold text-gray-800">Daftar Admin</h2>
-        <p class="text-sm text-gray-500 mt-1">Kelola data administrator sistem Dian Computer Digital Magazine.</p>
+        <p class="text-sm text-gray-500 mt-1">Kelola data administrator sistem Dian Computer.</p>
     </div>
 
     <button type="button" onclick="formModal('add')"

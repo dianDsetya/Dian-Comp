@@ -29,7 +29,7 @@
 
         <p class="px-3 text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2 mt-6">Inventory Data</p>
 
-        {{-- Master Product (Ganti dari Magazines) --}}
+       
         <a href="{{ route('products.index') }}"
             class="flex items-center gap-3 px-3 py-2.5 rounded-xl {{ request()->routeIs('products.*') ? 'bg-blue-500/15 text-blue-400 border border-blue-500/20' : 'text-gray-300 hover:bg-gray-800/50 hover:text-white' }} transition-all">
             {{-- Icon Box/Cube untuk Product --}}
